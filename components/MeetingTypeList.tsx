@@ -5,15 +5,25 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import HomeCard from "./HomeCard";
+import MeetingModal from "./MeetingModal";
+import { Textarea } from "./ui/textarea";
 // =======================
+
+const initialValues = {
+  dateTime: new Date(),
+  description: "",
+  link: "",
+};
 
 const MeetingTypeList = () => {
   // ======================
   const router = useRouter();
   const [meetingState, setMeetingState] = useState<
     "isScheduleMeeting" | "isJoiningMeeting" | "isInstantMeeting" | undefined
-    >(undefined);
-  
+  >(undefined);
+  const [values, setValues] = useState(initialValues);
+
+  const createMeeting = () => {};
 
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -44,6 +54,16 @@ const MeetingTypeList = () => {
         description="Meeting Recordings"
         className="bg-yellow-1"
         handleClick={() => router.push("/recordings")}
+      />
+
+      {/* Instant Meeting */}
+      <MeetingModal
+        isOpen={meetingState === "isInstantMeeting"}
+        onClose={() => setMeetingState(undefined)}
+        title="Start an Instant Meeting"
+        className="text-center"
+        buttonText="Start Meeting"
+        handleClick={createMeeting}
       />
     </section>
   );

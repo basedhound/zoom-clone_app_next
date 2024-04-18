@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Zoom",
   description: "A video conferencing app for the modern age",
+  icons: {
+    icon: "/icons/logo.svg",
+  }
 };
 
 export default function RootLayout({

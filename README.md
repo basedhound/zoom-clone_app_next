@@ -2,8 +2,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Manage this app 
 
-https://dashboard.clerk.com/
-https://dashboard.getstream.io/
+- https://dashboard.clerk.com/
+- https://dashboard.getstream.io/
 
 ## Getting Started
 

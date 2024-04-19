@@ -1,19 +1,23 @@
+// @ts-nocheck
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Call, CallRecording } from "@stream-io/video-react-sdk";
-// ================
+// ============
 import { useGetCalls } from "@/hooks/useGetCalls";
 import MeetingCard from "./MeetingCard";
 import Loader from "./Loader";
+import { useToast } from "./ui/use-toast";
 
 const CallList = ({ type }: { type: "ended" | "upcoming" | "recordings" }) => {
   const router = useRouter();
   const { endedCalls, upcomingCalls, callRecordings, isLoading } =
     useGetCalls();
   const [recordings, setRecordings] = useState<CallRecording[]>([]);
+  // More
+  const { toast } = useToast();
 
-  // return adequate type of calls depending the page we're on
+  // Return adequate type of calls depending the page we're on
   const getCalls = () => {
     switch (type) {
       case "ended":
@@ -27,23 +31,45 @@ const CallList = ({ type }: { type: "ended" | "upcoming" | "recordings" }) => {
     }
   };
 
-    const getNoCallsMessage = () => {
-      switch (type) {
-        case "ended":
-          return "No Previous Calls";
-        case "upcoming":
-          return "No Upcoming Calls";
-        case "recordings":
-          return "No Recordings";
-        default:
-          return "";
-      }
+  const getNoCallsMessage = () => {
+    switch (type) {
+      case "ended":
+        return "No Previous Calls";
+      case "upcoming":
+        return "No Upcoming Calls";
+      case "recordings":
+        return "No Recordings";
+      default:
+        return "";
+    }
   };
-  
-      const calls = getCalls();
-      const noCallsMessage = getNoCallsMessage();
 
+  // Fetch recordings for each specific call
+  useEffect(() => {
+    const fetchRecordings = async () => {
+      try {
+        const callData = await Promise.all(
+          callRecordings?.map((meeting) => meeting.queryRecordings()) ?? []
+        );
 
+        const recordings = callData
+          .filter((call) => call.recordings.length > 0)
+          .flatMap((call) => call.recordings);
+
+        setRecordings(recordings);
+      } catch (error) {
+        toast({ title: "Reload the page" });
+      }
+    };
+    if (type === "recordings") {
+      fetchRecordings();
+    }
+  }, [type, callRecordings]);
+
+  // More
+  if (isLoading) return <Loader />;
+  const calls = getCalls();
+  const noCallsMessage = getNoCallsMessage();
 
   return (
     <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
@@ -88,7 +114,7 @@ const CallList = ({ type }: { type: "ended" | "upcoming" | "recordings" }) => {
         <h1 className="text-2xl font-bold text-white">{noCallsMessage}</h1>
       )}
     </div>
-  );;
+  );
 };
 
 export default CallList;

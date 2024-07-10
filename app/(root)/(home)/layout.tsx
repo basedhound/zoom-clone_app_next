@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 
 export const metadata: Metadata = {
-  title: "Zoom",
+  title: "Yoom",
   description: "A video conferencing app for the modern age",
   icons: {
     icon: "/icons/logo.svg",

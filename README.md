@@ -1,6 +1,6 @@
 <div align="center">
     <a href="https://yoom-fv.vercel.app" target="_blank">
-      <img src="public/preview.webp" alt="Project Banner">
+      <img src="public/design/preview.webp" alt="Project Banner">
     </a>
   <h3 align="center">Zoom Clone</h3>
 </div>

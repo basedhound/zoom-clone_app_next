@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import StreamVideoProvider from "@/providers/StreamClientProvider";
 
 export const metadata: Metadata = {
-  title: "Zoom",
+  title: "Yoom",
   description: "A video conferencing app for the modern age",
   icons: {
     icon: "/icons/logo.svg",
